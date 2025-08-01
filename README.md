@@ -18,7 +18,7 @@ This helps compare how similar two movie feature vectors are.
 
 ## 🛠️ Tech Stack and Libraries
 
-* `pandas` ** for data handling**
+* `pandas` **for data handling**
 * `numpy` **for numerical computations**
 * `TfidfVectorizer` **from** `sklearn` **for text feature extraction**
 * `cosine_similarity` **from **`sklearn` **to measure similarity**
