@@ -78,13 +78,6 @@ import pandas as pd
 import difflib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import os
-
-# Check the current working directory
-print(os.getcwd())
-
-# Change to your local data directory (adjust the path as needed)
-os.chdir('C:\\Noble\\Training\\Acmegrade\\Data Science\\Projects\\PRJ Movie Recommendation\\')
 
 # Read dataset
 movies_data = pd.read_csv('movies.csv')
