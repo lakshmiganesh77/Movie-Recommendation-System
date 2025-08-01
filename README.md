@@ -1,5 +1,6 @@
-# Movie-Recommendation-System
-🎬 Python Movie Recommender System using TF-IDF &amp; cosine similarity. Suggests top 20 similar movies with cast, rating, and popularity. Shows colorful genre word cloud &amp; pie chart. Clean CLI, no UI required. Simple input/output, ideal for learning NLP + visualization.
+# 🎬 Movie Recommendation System
+
+A **Python-based movie recommender** that uses **TF-IDF vectorization** and **cosine similarity** to suggest similar movies based on content features.
 
 ---
 
@@ -46,17 +47,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 vec1 = [1,1,0,1,1]
 vec2 = [0,1,0,1,1]
 print(cosine_similarity([vec1, vec2]))
-
-vec1 * vec2 = 1*0+1*1+0*0+1*1+1*1 = 0+1+0+1+1= 3
-SQRT(1*1+1*1+0*0+1*1+1*1) = SQRT(1+1+0+1+1) = SQRT(4) = 2
-SQRT(0*0+1*1+0*0+1*1+1*1) = SQRT(0+1+0+1+1) = SQRT(3) = 1.73
-
-
-Cosine Similarity = 3/ (2*1.73) = 3/ 3.46 = 0.8670
----
+```
 
 ## 🧠 Consolidated Logic
-
 ```python
 movie_name = input('Enter your favourite movie name: ')
 list_of_all_titles = movies_data['title'].tolist()
@@ -65,7 +58,77 @@ close_match = find_close_match[0]
 index_of_the_movie = movies_data[movies_data.title == close_match]['index'].values[0]
 similarity_score = list(enumerate(similarity[index_of_the_movie]))
 sorted_similar_movies = sorted(similarity_score, key=lambda x: x[1], reverse=True)
+print('Movies suggested for you:\n')
+i = 1
+for movie in sorted_similar_movies:
+    index = movie[0]
+    title_from_index = movies_data[movies_data.index == index]['title'].values[0]
+    if i < 30:
+        print(i, '.', title_from_index)
+        i += 1
+```
 
+---
+
+## 🧠 Full Program
+
+```python
+import numpy as np
+import pandas as pd
+import difflib
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import os
+
+# Check the current working directory
+print(os.getcwd())
+
+# Change to your local data directory (adjust the path as needed)
+os.chdir('C:\\Noble\\Training\\Acmegrade\\Data Science\\Projects\\PRJ Movie Recommendation\\')
+
+# Read dataset
+movies_data = pd.read_csv('movies.csv')
+print(movies_data.head())
+print(movies_data.shape)
+
+# Select relevant features
+selected_features = ['genres','keywords','tagline','cast','director']
+print(selected_features)
+print(movies_data.info())
+print(movies_data.isna().sum())
+print(movies_data[selected_features].head())
+print(movies_data[selected_features].isna().sum())
+
+# Fill nulls
+for feature in selected_features:
+    movies_data[feature] = movies_data[feature].fillna('')
+
+print(movies_data.head())
+
+# Combine features
+combined_features = movies_data['genres'] + ' ' + movies_data['keywords'] + ' ' + movies_data['tagline'] + ' ' + movies_data['cast'] + ' ' + movies_data['director']
+
+# Vectorize
+vectorizer = TfidfVectorizer()
+feature_vectors = vectorizer.fit_transform(combined_features)
+print(feature_vectors.shape)
+print(feature_vectors)
+
+# Similarity matrix
+similarity = cosine_similarity(feature_vectors)
+print(similarity)
+print(similarity.shape)
+
+# Input movie
+movie_name = input('Enter your favourite movie name: ')
+list_of_all_titles = movies_data['title'].tolist()
+find_close_match = difflib.get_close_matches(movie_name, list_of_all_titles)
+close_match = find_close_match[0]
+index_of_the_movie = movies_data[movies_data.title == close_match]['index'].values[0]
+similarity_score = list(enumerate(similarity[index_of_the_movie]))
+sorted_similar_movies = sorted(similarity_score, key=lambda x: x[1], reverse=True)
+
+# Output top 30
 print('Movies suggested for you:\n')
 i = 1
 for movie in sorted_similar_movies:
