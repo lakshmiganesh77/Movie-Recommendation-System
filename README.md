@@ -6,11 +6,13 @@ A **Python-based movie recommender** that uses **TF-IDF vectorization** and **co
 
 ## 📌 Concept
 
-**Cosine similarity** measures the angle between two n-dimensional vectors. It is calculated as:
+## Cosine Similarity
 
-```
-Cosine Similarity = (A ⋅ B) / (||A|| * ||B||)
-```
+Cosine similarity measures the angle between two *n*-dimensional vectors. It is calculated as:
+
+$$
+\text{Cosine Similarity} = \cos(\theta) = \frac{\mathbf{A}\cdot\mathbf{B}}{\|\mathbf{A}\|\ \|\mathbf{B}\|} = \frac{\sum\limits_{i=1}^{n} A_i B_i}{\sqrt{\sum\limits_{i=1}^{n} A_i^2}\,\sqrt{\sum\limits_{i=1}^{n} B_i^2}}
+$$
 
 This helps compare how similar two movie feature vectors are.
 
